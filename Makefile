@@ -6,7 +6,6 @@
 include $(TOPDIR)/rules.mk
 
 LUCI_NAME:=luci-app-einat
-PKG_VERSION:=20240510
 
 LUCI_TITLE:=LuCI Support for einat
 LUCI_PKGARCH:=all

@@ -3,6 +3,7 @@
 'require fs';
 'require uci';
 'require rpc';
+'require poll';
 'require view';
 'require network';
 'require tools.widgets as widgets';
@@ -55,9 +56,17 @@ return view.extend({
 
 		var m, s, o;
 
-		m = new form.Map('einat', _('einat-ebpf'));
+		m = new form.Map('einat', _('einat-ebpf'), _('eBPF-based Endpoint-Independent NAT'));
 
-		s = m.section(form.namedSection, 'config', instance);
+		s = m.section(form.NamedSection, '_status');
+		s.anonymous = true;
+		s.render = function (section_id) {
+			return E('div', { class: 'cbi-section' }, [
+				E('div', { id: 'service_status' }, _('Collecting data ...'))
+			]);
+		};
+
+		s = m.section(form.NamedSection, 'config', instance);
 		s.anonymous = true;
 
 		o = s.option(form.Button, '_reload', _('Reload'));
@@ -111,12 +120,11 @@ return view.extend({
 		o.default = o.disabled;
 		o.rmempty = false;
 
-		o = s.option(form.DeviceSelect, 'hairpinif', _('Hairpin internal interfaces'));
+		o = s.option(widgets.DeviceSelect, 'hairpinif', _('Hairpin internal interfaces'));
 		o.multiple = true;
 		o.noaliases = true;
 		o.nobridges = false;
 		o.nocreate = true;
-		o.default = 'lo';
 		o.depends('hairpin_enabled', '1');
 		o.rmempty = true;
 		o.retain = true;
