@@ -1,0 +1,14 @@
+{
+	"luci-app-einat": {
+		"description": "Grant access to LuCI app einat",
+		"read": {
+			"ubus": {
+				"service": [ "list" ]
+			},
+			"uci": ["einat"]
+		},
+		"write": {
+			"uci": ["einat"]
+		}
+	}
+}
