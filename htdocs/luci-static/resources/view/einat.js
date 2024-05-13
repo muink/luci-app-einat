@@ -116,7 +116,8 @@ return view.extend({
 		o.placeholder = '20000-29999';
 		o.rmempty = true;
 
-		o = s.option(form.Flag, 'hairpin_enabled', _('Enable hairpin'));
+		o = s.option(form.Flag, 'hairpin_enabled', _('Enable hairpin'),
+			_('May conflict with other policy routing-based applications'));
 		o.default = o.disabled;
 		o.rmempty = false;
 
