@@ -11,6 +11,9 @@
 			"uci": ["einat"]
 		},
 		"write": {
+			"ubus": {
+				"rc": [ "init" ]
+			},
 			"uci": ["einat"]
 		}
 	}

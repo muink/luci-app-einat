@@ -2,6 +2,7 @@
 'require form';
 'require fs';
 'require uci';
+'require ui';
 'require rpc';
 'require poll';
 'require view';
@@ -18,6 +19,12 @@ var callServiceList = rpc.declare({
 	expect: { '': {} }
 });
 
+var callRcInit = rpc.declare({
+	object: 'rc',
+	method: 'init',
+	params: ['name', 'action']
+});
+
 function getServiceStatus() {
 	return L.resolveDefault(callServiceList(conf), {})
 		.then(function (res) {
@@ -27,6 +34,17 @@ function getServiceStatus() {
 			} catch (e) { }
 			return isrunning;
 		});
+}
+
+function handleAction(action, ev) {
+	return callRcInit("einat", action).then((ret) => {
+		if (ret)
+			throw _('Command failed');
+
+		return true;
+	}).catch((e) => {
+		ui.addNotification(null, E('p', _('Failed to execute "/etc/init.d/%s %s" action: %s').format("einat", action, e)));
+	});
 }
 
 return view.extend({
@@ -73,9 +91,7 @@ return view.extend({
 		o.inputtitle = _('Reload');
 		o.inputstyle = 'apply';
 		o.onclick = function() {
-			return fs.exec('/etc/init.d/einat', ['reload'])
-				.then(function(res) { return window.location = window.location.href.split('#')[0] })
-				.catch(function(e) { ui.addNotification(null, E('p', e.message), 'error') });
+			return handleAction('reload');
 		};
 
 		o = s.option(form.Flag, 'enabled', _('Enable'));
