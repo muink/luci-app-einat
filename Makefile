@@ -8,7 +8,7 @@ LUCI_NAME:=luci-app-einat
 
 LUCI_TITLE:=LuCI Support for einat
 LUCI_PKGARCH:=all
-LUCI_DEPENDS:=
+LUCI_DEPENDS:=+einat-ebpf
 
 LUCI_DESCRIPTION:=eBPF-based Endpoint-Independent NAT
 
